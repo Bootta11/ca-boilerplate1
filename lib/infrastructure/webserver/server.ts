@@ -1,5 +1,6 @@
 import restify from 'restify'
 import { Server } from 'restify'
+import config from '../config/environment'
 
 export default class WebServer {
     server: Server
@@ -7,8 +8,8 @@ export default class WebServer {
     port: number
 
     constructor() {
-        this.defaultVersion = "1.0.0" //extract into env variable
-        this.port = 8080 //extract into env variable
+        this.defaultVersion = config.defaultVersion
+        this.port = config.port
         this.server = restify.createServer()
 
         this.server.get('/', function(req, res, next) {
@@ -19,7 +20,7 @@ export default class WebServer {
 
     start = async () => {
         this.server.listen(this.port, function() {
-            console.log(`Server is up...`)
+            console.log(`Server is up on ${config.port}`)
         });
     }
 }
