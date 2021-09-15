@@ -1,32 +1,28 @@
-import dotenv from 'dotenv'
-
-process.env.NODE_ENV = process.env.NODE_ENV || 'development'
-
-dotenv.config()
+import env from './dotenv-loader'
+import database from './modules/database'
+import server from "./modules/server";
+import auth from "./modules/auth";
+import log from "./modules/log";
 
 export default {
-    /**  
+    /**
      * Server
-    */
-    port: parseInt(<string>process.env.PORT, 10) || 8080,
-    defaultVersion: process.env.API_VERSION || "1.0.0", 
+     */
+    server,
 
     /**
-     * Database 
+     * Database
      */
-    databaseUrl: process.env.POSTGRES_URL,
+    database,
 
     /**
-     * JWT
+     * Auth
      */
-    jwtSecret: process.env.JWT_SECRET,
-    jwtAlgorithm: process.env.JWT_ALGO,
+    auth,
 
     /**
-     * Log 
+     * Log
      */
-    logs: {
-        level: process.env.LOG_LEVEL
-    }
+    log
 }
 
