@@ -1,0 +1,34 @@
+{
+  "name": "magnate-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "ts-node-dev --respawn --pretty --transpile-only index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moguldevelopment/magnate-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moguldevelopment/magnate-api/issues"
+  },
+  "homepage": "https://github.com/moguldevelopment/magnate-api#readme",
+  "dependencies": {
+    "restify": "^8.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.1",
+    "@types/restify": "^8.5.2",
+    "ts-node-dev": "^1.1.8"
+  }
+}
