@@ -18,7 +18,7 @@ export default class WebServer {
         })
     }
 
-    start = async () => {
+    start = async (): Promise<void> => {
         this.server.listen(this.port, function() {
             console.log(`Server is up on ${config.port}`)
         });
