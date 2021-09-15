@@ -24,10 +24,13 @@
   },
   "homepage": "https://github.com/moguldevelopment/magnate-api#readme",
   "dependencies": {
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
     "restify": "^8.5.1"
   },
   "devDependencies": {
     "@types/node": "^16.9.1",
+    "@types/passport-jwt": "^3.0.6",
     "@types/restify": "^8.5.2",
     "ts-node-dev": "^1.1.8"
   }
