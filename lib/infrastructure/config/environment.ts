@@ -5,7 +5,6 @@ import auth from "./modules/auth";
 import log from "./modules/log";
 
 export default {
-    node_env: env.NODE_ENV,
     /**
      * Server
      */
