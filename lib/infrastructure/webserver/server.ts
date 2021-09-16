@@ -8,8 +8,8 @@ export default class WebServer {
     port: number
 
     constructor() {
-        this.defaultVersion = config.defaultVersion
-        this.port = config.port
+        this.defaultVersion = config.server.defaultVersion
+        this.port = config.server.port
         this.server = restify.createServer()
 
         this.server.get('/', function(req, res, next) {
@@ -20,7 +20,7 @@ export default class WebServer {
 
     start = async (): Promise<void> => {
         this.server.listen(this.port, function() {
-            console.log(`Server is up on ${config.port}`)
+            console.log(`Server is up on ${config.server.port}`)
         });
     }
 }
