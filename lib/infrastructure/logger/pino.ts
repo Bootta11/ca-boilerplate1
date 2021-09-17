@@ -9,12 +9,12 @@ const transports = pino.transport(
     {
         targets: [
             {
-                level: 'info',
+                level: environment.log.level,
                 target: getTransportPath('console-log-transport'),
                 options: {}
             },
             {
-                level: 'debug',
+                level: environment.log.level,
                 target: getTransportPath('file-transport'),
                 options: {
                     destination: environment.log.logPath,
