@@ -1,6 +1,7 @@
 import restify from 'restify'
 import { Server } from 'restify'
 import config from '../config/environment'
+import pino from "../logger/pino";
 
 export default class WebServer {
     server: Server
@@ -11,6 +12,11 @@ export default class WebServer {
         this.defaultVersion = config.server.defaultVersion
         this.port = config.server.port
         this.server = restify.createServer()
+
+        this.server.use((req, res, next) => {
+            req.log = pino
+            next()
+        })
 
         this.server.get('/', function(req, res, next) {
             res.send("Health check")

@@ -1,7 +1,7 @@
 import {Sequelize} from "sequelize";
 import env from "../config/environment";
 
-const dbConfig = env.database.sequelize[env.node_env]
+const dbConfig = env.database.sequelize[env.server.node_env]
 
 const pgdb = new Sequelize(
     dbConfig.database,
