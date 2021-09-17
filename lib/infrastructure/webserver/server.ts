@@ -1,7 +1,9 @@
 import restify from 'restify'
+import errors from 'restify-errors'
 import { Server } from 'restify'
 import config from '../config/environment'
 import pino from "../logger/pino";
+import routes from '../../interfaces/routes';
 
 export default class WebServer {
     server: Server
@@ -13,8 +15,10 @@ export default class WebServer {
         this.port = config.server.port
         this.server = restify.createServer()
 
+        routes(this.server)
+
         this.server.use((req, res, next) => {
-            req.log = pino
+            req.pino = pino
             next()
         })
 
