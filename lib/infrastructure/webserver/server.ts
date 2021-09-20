@@ -1,29 +1,35 @@
-import restify from 'restify'
-import errors from 'restify-errors'
+import {createServer, plugins} from 'restify'
 import { Server } from 'restify'
 import config from '../config/environment'
-import pino from "../logger/pino";
-import routes from '../../interfaces/routes';
+import routes from '../../interfaces/routes'
+import {Logger} from "../logger/Logger";
+import P from "pino";
+import BaseLogger = P.BaseLogger;
+import {Service} from "typedi";
+import {PgDB} from "../orm/PgDB";
+import {Sequelize} from "sequelize";
+import bodyParser = plugins.bodyParser;
 
+@Service()
 export default class WebServer {
     server: Server
     defaultVersion: string
     port: number
 
-    constructor() {
+    constructor(@Logger() private logger: BaseLogger, @PgDB() private db: Sequelize) {
         this.defaultVersion = config.server.defaultVersion
         this.port = config.server.port
-        this.server = restify.createServer()
+        this.server = createServer()
+        this.server.use(bodyParser({ mapParams: true }));
 
+        this.initializeRoutes()
+    }
+
+    initializeRoutes(){
         routes(this.server)
 
-        this.server.use((req, res, next) => {
-            req.pino = pino
-            next()
-        })
-
-        this.server.get('/', function(req, res, next) {
-            res.send("Health check")
+        this.server.get('/', async function(req, res, next) {
+            res.json({status: 'ok'})
             return next()
         })
     }

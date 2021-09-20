@@ -1,5 +1,6 @@
 import Joi from 'joi'
+import {requiredAndMinLength} from "./helpers";
 
 export default Joi.object({
-    name: Joi.string().required().error(() => 'must have name as string'),
+    name: requiredAndMinLength('string', 'name', 2),
 })

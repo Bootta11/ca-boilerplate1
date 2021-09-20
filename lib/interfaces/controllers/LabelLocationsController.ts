@@ -6,24 +6,20 @@ import BaseLogger = P.BaseLogger;
 import {Service} from "typedi";
 import {Label} from "../models/Label";
 import {LabelLocation} from "../models/LabelLocation";
+import {Country} from "../models/Country";
 import {LabelsRepo, LabelsRepository} from "../../domain/repositories/LabelsRepository";
+import {LabelLocationsRepo, LabelLocationsRepository} from "../../domain/repositories/LabelLocationsRepository";
 
-// function first() {
-//     console.log("first(): factory evaluated");
-//     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-//         console.log("first(): called");
-//         console.log(target, propertyKey, descriptor);
-//     };
-// }
 @Service()
-export class LabelsController {
+export class LabelLocationsController {
     constructor(
         @Logger() private logger: BaseLogger,
-        @LabelsRepo() private repo: LabelsRepository
+        @LabelLocationsRepo() private repo: LabelLocationsRepository
     ) {}
 
     async index(req: Request, res: Response, next: Next){
-        const items = await Label.findAll({include: [LabelLocation]})
+        console.log('lblloc ctrl ind');
+        const items = await LabelLocation.findAll({include: [Country]})
         res.json({
             data: items,
             status: "OK"
@@ -32,11 +28,12 @@ export class LabelsController {
     }
 
     async get(req: Request, res: Response, next: Next){
-        const item = await Label.findOne({
+        console.log('lblloc ctrl get');
+        const item = await LabelLocation.findOne({
             where: {
                 id: req.params.id
             },
-            include: [LabelLocation]
+            include: [Country]
         })
 
         res.json({
@@ -47,8 +44,15 @@ export class LabelsController {
     }
 
     async create(req: Request, res: Response, next: Next){
-        console.log('create');
-        let result = await this.repo.create({name: req.params.name, locationId: req.params.locationId})
+        console.log('lblloc ctrl');
+        let result = await this.repo.create({
+            countryId: req.params.countryId,
+            address: req.params.address,
+            unitOrApt: req.params.unitOrApt,
+            city: req.params.city,
+            state: req.params.state,
+            zip: req.params.zip,
+        })
 
         res.json({
             data: result,

@@ -1,6 +1,5 @@
-import env from '../dotenv-loader'
 // @ts-ignore
-import sequelize from '../../../../db/config.js'
+import sequelize from './sequelize'
 
 export default {
     sequelize
