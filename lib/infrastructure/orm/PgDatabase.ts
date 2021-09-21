@@ -13,7 +13,7 @@ export class PgDatabase {
             dialect: dbConfig.dialect,
             username: dbConfig.username,
             password: dbConfig.password,
-            models: [__dirname + '/../../interfaces/models']
+            models: [__dirname + '/../../domain/models']
         })
     }
 
