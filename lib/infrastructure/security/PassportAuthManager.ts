@@ -1,6 +1,6 @@
 import passport from "passport";
 import {Strategy as JwtStrategy, ExtractJwt} from 'passport-jwt';
-import config from '../config/Container'
+import config from '../config/environment'
 
 export default class PassportAuthManger {
     public passport: any;
@@ -14,7 +14,7 @@ export default class PassportAuthManger {
     confJwt(){
         const opts = {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: config.auth.jwtToken,
+            secretOrKey: config.auth.jwtSecret,
         };
 
         this.passport.serializeUser(function(user, done) {
