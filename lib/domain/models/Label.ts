@@ -4,11 +4,6 @@ import {Country} from "./Country";
 
 @Table({tableName: 'labels'})
 export class Label extends Model {
-    @Is('checkName', (value) => {
-        if(value !== 'teeest'){
-            throw new Error('Its not test value')
-        }
-    })
     @Column
     name: string
 
