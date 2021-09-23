@@ -4,22 +4,16 @@ import {PinoLogger} from "../../infrastructure/logger/PinoLogger";
 import P from "pino";
 import BaseLogger = P.BaseLogger;
 import {Service} from "typedi";
-import {Label} from "../models/Label";
-import {LabelLocation} from "../models/LabelLocation";
-import {LabelsRepo, LabelsRepository} from "../../domain/repositories/LabelsRepository";
+import {Label} from "../../domain/models/Label";
+import {LabelLocation} from "../../domain/models/LabelLocation";
+import {LabelsRepository} from "../../domain/repositories/LabelsRepository";
+import LabelsSchema from "../schemas/LabelsSchema";
 
-// function first() {
-//     console.log("first(): factory evaluated");
-//     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-//         console.log("first(): called");
-//         console.log(target, propertyKey, descriptor);
-//     };
-// }
 @Service()
 export class LabelsController {
     constructor(
         @Logger() private logger: BaseLogger,
-        @LabelsRepo() private repo: LabelsRepository
+        private repo: LabelsRepository
     ) {}
 
     async index(req: Request, res: Response, next: Next){
@@ -47,8 +41,10 @@ export class LabelsController {
     }
 
     async create(req: Request, res: Response, next: Next){
-        console.log('create');
-        let result = await this.repo.create({name: req.params.name, locationId: req.params.locationId})
+        let rawData = {name: req.params.name, locationId: req.params.locationId};
+        const {error, value: validatedData} = LabelsSchema.validate(rawData)
+        console.log(rawData, validatedData, error);
+        let result = await this.repo.create(validatedData)
 
         res.json({
             data: result,

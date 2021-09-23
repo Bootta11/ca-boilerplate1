@@ -7,13 +7,15 @@ export class PgDatabase {
     private database: Sequelize
 
     constructor() {
-        console.log('dir', __dirname);
+        console.log('PGDB', env, dbConfig);
         this.database = new Sequelize({
             database: dbConfig.database,
             dialect: dbConfig.dialect,
             username: dbConfig.username,
             password: dbConfig.password,
-            models: [__dirname + '/../../interfaces/models']
+            host: dbConfig.host,
+            port: dbConfig.port,
+            models: [__dirname + '/../../domain/models']
         })
     }
 

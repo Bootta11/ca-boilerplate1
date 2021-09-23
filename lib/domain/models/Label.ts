@@ -1,4 +1,4 @@
-import {Table, Column, Model, HasOne, Is, NotEmpty} from 'sequelize-typescript'
+import {Table, Column, Model, HasOne, Is, NotEmpty, IsEmail} from 'sequelize-typescript'
 import {LabelLocation} from "./LabelLocation";
 import {Country} from "./Country";
 
@@ -7,7 +7,6 @@ export class Label extends Model {
     @Column
     name: string
 
-    @NotEmpty
     @Column
     locationId: number
 

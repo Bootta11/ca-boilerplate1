@@ -1,26 +1,31 @@
-const fs = require('fs');
+const fs = require('fs')
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 
 module.exports = {
   development: {
-    username: 'mogul_user',
-    password: 'test1234',
-    database: 'moguldb',
-    host: '127.0.0.1',
+    username: process.env.DB_USERNAME || 'mogul_user',
+    password: process.env.DB_PASSWORD || 'test1234',
+    database: process.env.DB_NAME || 'moguldb',
+    host: process.env.DB_HOSTNAME || '127.0.0.1',
+    port: process.env.DB_PORT || 5432,
     dialect: 'postgres',
   },
-  test: {
-    username: process.env.CI_DB_USERNAME,
-    password: process.env.CI_DB_PASSWORD,
-    database: process.env.CI_DB_NAME,
-    host: '127.0.0.1',
+  staging: {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOSTNAME,
+    port: process.env.DB_PORT,
     dialect: 'postgres',
   },
   production: {
-    username: process.env.PROD_DB_USERNAME,
-    password: process.env.PROD_DB_PASSWORD,
-    database: process.env.PROD_DB_NAME,
-    host: process.env.PROD_DB_HOSTNAME,
-    port: process.env.PROD_DB_PORT,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOSTNAME,
+    port: process.env.DB_PORT,
     dialect: 'postgres',
   }
 };

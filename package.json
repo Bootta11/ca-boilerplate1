@@ -9,9 +9,12 @@
     "test": "tests"
   },
   "scripts": {
-    "start": " ts-node-dev --respawn --pretty index.ts",
+    "start": "sequelize db:migrate && ts-node-dev --respawn --pretty index.ts",
     "tsn": "ts-node-dev --respawn --type-check",
     "lint": "eslint . --ext .ts",
+    "migrate": "npx sequelize db:migrate",
+    "rollback": "npx sequelize db:migrate:undo",
+    "generate": "npx sequelize migration:generate --name ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
