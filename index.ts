@@ -17,28 +17,41 @@ import BaseLogger = P.BaseLogger;
 
 @Service()
 class App {
+    private webServer
+
     constructor(@Logger() private logger: BaseLogger) {
     }
 
-    async start(){
+    async start() {
         try {
-            const server = Container.get(WebServer)
+            this.webServer = Container.get(WebServer)
             //throw new Error("Custom error created")
-            await server.start()
+            await this.webServer.start()
         } catch (err) {
             console.log(err);
             this.logger.error(err)
         }
     }
+
+    async stop(): Promise<any> {
+        return this.webServer.stop()
+    }
 }
 
-Container.get(App)
-    .start()
+const app: App = Container.get(App)
+app.start()
     .then(r => {
         console.log('Start finished');
     })
     .catch(err => {
         console.log(err)
     })
+
+async function closeGracefully(signal) {
+    await app.stop()
+    process.exit()
+}
+
+process.on('SIGINT', closeGracefully)
 
 

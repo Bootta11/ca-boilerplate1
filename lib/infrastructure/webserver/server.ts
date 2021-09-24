@@ -35,7 +35,7 @@ export default class WebServer {
         this.server.on('InternalServer', function (req, res, err, cb) {
             // this event is fired first. you can annotate errors here by saying
             // err.handled = true, because we must ALWAYS fire the generic handler after.
-            console.log("INTERNALERROR", err);
+            console.log("INTERNALERROR:", err, 'Stack: ', err.stack);
             err.handled = true;
             return cb();
         });
@@ -62,9 +62,13 @@ export default class WebServer {
         })
     }
 
-    start = async (): Promise<void> => {
+    async start(): Promise<void> {
         this.server.listen(this.port, function () {
             console.log(`Server is up on ${config.server.port}`)
         });
+    }
+
+    async stop(): Promise<any> {
+        return this.server.close()
     }
 }
