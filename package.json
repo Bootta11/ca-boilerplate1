@@ -9,13 +9,14 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "sequelize db:migrate && ts-node-dev --respawn --pretty index.ts",
-    "tsn": "ts-node-dev --respawn --type-check",
+    "start": "(sequelize db:create | dev-null) || true && sequelize db:migrate && npx tsc && node dist/index.js",
+    "start:dev": "tsc && node dist/index.js",
+    "build": "tsc",
+    "dev": "sequelize db:create > dev-null && sequelize db:migrate && ts-node-dev --respawn --pretty index.ts",
     "lint": "eslint . --ext .ts",
     "migrate": "npx sequelize db:migrate",
     "rollback": "npx sequelize db:migrate:undo",
-    "generate": "npx sequelize migration:generate --name ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "generate": "npx sequelize migration:generate --name "
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
   },
   "homepage": "https://github.com/moguldevelopment/magnate-api#readme",
   "dependencies": {
+    "dev-null-cli": "^1.0.0",
     "dotenv": "^10.0.0",
     "joi": "^17.4.2",
     "npm": "^7.23.0",
@@ -41,6 +43,7 @@
     "restify": "^8.5.1",
     "rotating-file-stream": "^2.1.5",
     "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0",
     "sequelize-typescript": "^2.1.0",
     "typedi": "^0.10.0"
   },
@@ -52,7 +55,6 @@
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.32.0",
-    "sequelize-cli": "^6.2.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.3"
   }
