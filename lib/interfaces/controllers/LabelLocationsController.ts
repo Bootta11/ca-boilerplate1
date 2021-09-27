@@ -10,15 +10,25 @@ import {Country} from "../../domain/models/Country";
 import {LabelLocationsRepository} from "../../domain/repositories/LabelLocationsRepository";
 import LabelsSchema from "../schemas/LabelsSchema";
 import LabelLocationsSchema from "../schemas/LabelLocationsSchema";
+import ErrnoException = NodeJS.ErrnoException;
+import {BaseController} from "./BaseController";
+import {ObjectSchema} from "joi";
 
 @Service()
-export class LabelLocationsController {
+export class LabelLocationsController extends BaseController {
+
     constructor(
         @Logger() private logger: BaseLogger,
         private repo: LabelLocationsRepository
-    ) {}
+    ) {
+        super()
+    }
 
-    async index(req: Request, res: Response, next: Next){
+    getDefaultValidationSchema(): ObjectSchema<any> {
+        return LabelLocationsSchema;
+    }
+
+    async index(req: Request, res: Response, next: Next) {
         console.log('lblloc ctrl ind');
         const items = await LabelLocation.findAll({include: [Country]})
         res.json({
@@ -28,7 +38,7 @@ export class LabelLocationsController {
         next()
     }
 
-    async get(req: Request, res: Response, next: Next){
+    async get(req: Request, res: Response, next: Next) {
         console.log('lblloc ctrl get');
         const item = await LabelLocation.findOne({
             where: {
@@ -44,7 +54,7 @@ export class LabelLocationsController {
         next()
     }
 
-    async create(req: Request, res: Response, next: Next){
+    async create(req: Request, res: Response, next: Next) {
         let rawData = {
             countryId: req.params.countryId,
             address: req.params.address,
@@ -56,28 +66,16 @@ export class LabelLocationsController {
 
         console.log('before validation')
 
-        const {error, value: validatedData} = LabelLocationsSchema.validate(rawData)
+        let result = await this.repo.create(this.validatePayload(res, rawData))
 
-        if(error) return res.json({error: error.message, status: 'nok'})
+        return res.json({
+            data: result,
+            status: "OK"
+        });
 
-        // try{
-            let result = await this.repo.create(validatedData)
-
-            return res.json({
-                data: result,
-                status: "OK"
-            });
-        // }catch (ex){
-        //     console.log('cc', (<Error>ex).message)
-        //     this.logger.error(ex)
-        //     return res.json({
-        //         error: (<Error>ex).message,
-        //         status: 'nok'
-        //     })
-        // }
     }
 
-    async update(req: Request, res: Response, next: Next){
+    async update(req: Request, res: Response, next: Next) {
         console.log('update method');
         res.json({
             api: 'update',
@@ -86,7 +84,7 @@ export class LabelLocationsController {
         next()
     }
 
-    async delete(req: Request, res: Response, next: Next){
+    async delete(req: Request, res: Response, next: Next) {
         console.log('delete method');
         res.json({
             api: 'delete',

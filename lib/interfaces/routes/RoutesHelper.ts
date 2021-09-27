@@ -4,11 +4,13 @@ import {Service} from "typedi";
 import P from "pino";
 import BaseLogger = P.BaseLogger;
 import {Logger} from "../../infrastructure/logger/Logger";
+import {RouteErrors} from "./RouteErrors";
 
 @Service()
 export default class RoutesHelper {
     constructor(
-        @Logger() private logger: BaseLogger
+        @Logger() private logger: BaseLogger,
+        private routeErrors: RouteErrors
     ) {
     }
 
@@ -33,13 +35,16 @@ export default class RoutesHelper {
     }
 
     catchErrors(callback) {
+        const ctrlThis = this;
         return async function errorHandler(req, res, next) {
             try {
                 await callback(req, res, next)
             } catch (err) {
-                if (!(err instanceof restifyErrors.HttpError))
-                    err = new restifyErrors.InternalServerError(err)
-                next(err)
+                console.log('Err: ', err)
+                return ctrlThis.routeErrors.errorResponse(res, err)
+                // if (!(err instanceof restifyErrors.HttpError))
+                //     err = new restifyErrors.InternalServerError(err)
+                // next(err)
             }
         }
     }

@@ -7,7 +7,7 @@ export class PgDatabase {
     private database: Sequelize
 
     constructor() {
-        console.log('PGDB', env, dbConfig);
+
         this.database = new Sequelize({
             database: dbConfig.database,
             dialect: dbConfig.dialect,

@@ -4,8 +4,4 @@ export let requiredAndMinLength = function (type: string, fieldName: string, min
     return Joi[type]()
         .min(minLength)
         .required()
-        // .messages({
-        //     'string.min': `${fieldName} min length is 2 characters`,
-        //     'any.required': `must ${fieldName} name as string`
-        // })
 }

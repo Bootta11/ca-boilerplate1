@@ -3,6 +3,7 @@ import database from './modules/database'
 import server from "./modules/server";
 import auth from "./modules/auth";
 import log from "./modules/log";
+import firebase from "./modules/firebase";
 
 export default {
     /**
@@ -24,5 +25,10 @@ export default {
      * Log
      */
     log,
+
+    /**
+     * Firebase
+     */
+    firebase
 }
 

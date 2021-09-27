@@ -8,13 +8,21 @@ import {Label} from "../../domain/models/Label";
 import {LabelLocation} from "../../domain/models/LabelLocation";
 import {LabelsRepository} from "../../domain/repositories/LabelsRepository";
 import LabelsSchema from "../schemas/LabelsSchema";
+import {BaseController} from "./BaseController";
+import {ObjectSchema} from "joi";
 
 @Service()
-export class LabelsController {
+export class LabelsController extends  BaseController{
     constructor(
         @Logger() private logger: BaseLogger,
         private repo: LabelsRepository
-    ) {}
+    ) {
+        super()
+    }
+
+    getDefaultValidationSchema(): ObjectSchema{
+        return LabelsSchema
+    }
 
     async index(req: Request, res: Response, next: Next){
         const items = await Label.findAll({include: [LabelLocation]})
@@ -42,9 +50,8 @@ export class LabelsController {
 
     async create(req: Request, res: Response, next: Next){
         let rawData = {name: req.params.name, locationId: req.params.locationId};
-        const {error, value: validatedData} = LabelsSchema.validate(rawData)
-        console.log(rawData, validatedData, error);
-        let result = await this.repo.create(validatedData)
+
+        let result = await this.repo.create(this.validatePayload(res, rawData))
 
         res.json({
             data: result,

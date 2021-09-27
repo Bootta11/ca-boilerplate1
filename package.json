@@ -9,8 +9,8 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "(sequelize db:create | dev-null) || true && sequelize db:migrate && npx tsc && node dist/index.js",
-    "start:dev": "tsc && node dist/index.js",
+    "start": "sequelize db:migrate && npx tsc && node dist/index.js",
+    "start:dev": "ts-node-dev --respawn index.ts",
     "build": "tsc",
     "dev": "sequelize db:create > dev-null && sequelize db:migrate && ts-node-dev --respawn --pretty index.ts",
     "lint": "eslint . --ext .ts",
@@ -30,8 +30,11 @@
   },
   "homepage": "https://github.com/moguldevelopment/magnate-api#readme",
   "dependencies": {
+    "@zmotivat0r/o0": "^1.0.2",
+    "await-to-js": "^3.0.0",
     "dev-null-cli": "^1.0.0",
     "dotenv": "^10.0.0",
+    "firebase": "^9.0.2",
     "joi": "^17.4.2",
     "npm": "^7.23.0",
     "passport": "^0.4.1",
